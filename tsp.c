@@ -32,7 +32,6 @@ long long calcularPesoTotal(int *rota, int n_cidades, int **dist) {
     for (int i = 0; i < n_cidades - 1; i++) {
         peso += dist[rota[i]][rota[i+1]];
     }
-    // fecha o ciclo
     peso += dist[rota[n_cidades - 1]][rota[0]];
     return peso;
 }
@@ -264,7 +263,6 @@ int main() {
     }
     printf("EOF\n");
     
-    // Liberar a memória
     for(int i = 0; i < qtdcandidatas; i++) free(candidatas[i].rota);
     free(candidatas);
     for(int i = 0; i < n_cidades; i++) free(dist[i]);

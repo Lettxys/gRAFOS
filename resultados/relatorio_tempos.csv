@@ -1,0 +1,11 @@
+Instancia,Peso Total,Tempo (segundos)
+tsp100,21046,0.8949
+tsp150,6636,0.1412
+tsp29,27603,0.0135
+tsp38,6656,0.0146
+tsp436,1490,1.5666
+tsp51,428,0.0167
+
+*Alguns resultados podem estar diferentes dos estabelecidos no README ou no relatório porque um último teste foi executado antes 
+do arquivo ser enviado, mas conforme estabelecido no relatório: Os tempos registrados podem variar dependendo do hardware e 
+da carga do sistema no momento da medição.

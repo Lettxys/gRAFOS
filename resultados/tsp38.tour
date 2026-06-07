@@ -1,0 +1,45 @@
+NAME: dj38
+COMMENT: Integrantes: Leticia Almeida, Isabelli Pinho e Elislandia Aparecida; Metodo: VND com multi-start filtrado, Vizinho Mais Proximo, 2-Opt e Swap
+TYPE: TOUR
+DIMENSION: 38
+TOTAL_WEIGHT: 6656
+TOUR_SECTION
+16
+17
+18
+19
+11
+12
+9
+8
+7
+6
+5
+3
+4
+2
+1
+10
+14
+21
+29
+30
+32
+35
+37
+38
+33
+34
+36
+31
+27
+28
+24
+22
+25
+26
+23
+20
+15
+13
+EOF
