@@ -194,9 +194,7 @@ Implementação de **Candidate Lists** na vizinhança 2-Opt.
 
 A ideia consiste em restringir a busca apenas às cidades mais próximas, reduzindo o custo para aproximadamente:
 
-[
-O(N \cdot K)
-]
+[O(N⋅K)]
 
 onde:
 
