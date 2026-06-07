@@ -1,6 +1,6 @@
 # Solver para o Problema do Caixeiro Viajante (TSP)
 
-**Disciplina:** Algoritmos em Grafos
+**Disciplina:** Algoritmos em Grafos 
 **Instituição:** Universidade Federal do Ceará – Campus Crateús  
 **Formato de instâncias:** TSPLIB (EUC_2D, simétrico)
 
