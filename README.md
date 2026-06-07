@@ -1,6 +1,12 @@
 # Trabalho Pratico - Problema do Caixeiro Viajante
 
+<<<<<<< HEAD
 Implementacao simples em C para instancias simetricas do TSP no formato TSPLIB, usando coordenadas `EUC_2D`.
+=======
+**Disciplina:** Algoritmos em Grafos                                             
+**Instituição:** Universidade Federal do Ceará – Campus Crateús  
+**Formato de instâncias:** TSPLIB (EUC_2D, simétrico)
+>>>>>>> d771d1ad89fbf14478675fb5ec49d1e2e5488536
 
 ## Arquivos principais
 
