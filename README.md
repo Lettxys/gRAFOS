@@ -1,102 +1,243 @@
-# Trabalho Pratico - Problema do Caixeiro Viajante
+# Trabalho Prático – Problema do Caixeiro Viajante (TSP)
 
-<<<<<<< HEAD
-Implementacao simples em C para instancias simetricas do TSP no formato TSPLIB, usando coordenadas `EUC_2D`.
-=======
-**Disciplina:** Algoritmos em Grafos                                             
-**Instituição:** Universidade Federal do Ceará – Campus Crateús  
-**Formato de instâncias:** TSPLIB (EUC_2D, simétrico)
->>>>>>> d771d1ad89fbf14478675fb5ec49d1e2e5488536
+Implementação em linguagem **C** para resolução de instâncias simétricas do **Problema do Caixeiro Viajante (Travelling Salesman Problem - TSP)** no formato **TSPLIB**, utilizando coordenadas **EUC_2D**.
 
-## Arquivos principais
+**Disciplina:** Algoritmos em Grafos
+**Instituição:** Universidade Federal do Ceará (UFC) – Campus Crateús
 
-- `tsp.c`: codigo-fonte final em C.
-- `medidor_tempos.py`: script para compilar, executar todas as instancias e gerar CSV de tempos.
-- `Instancias/`: instancias `.tsp` usadas nos testes.
-- `resultados/`: tours gerados e tabelas CSV.
-- `relatorio_pcv.pdf`: relatorio tecnico.
+---
 
-## Compilacao
+## Formato das Instâncias
 
-No Windows, com GCC:
+O projeto trabalha com instâncias da biblioteca TSPLIB que atendem às seguintes características:
 
-```powershell
+* Tipo: TSP Simétrico
+* Formato de distância: EUC_2D
+* Entrada: Arquivos `.tsp`
+* Saída: Arquivos `.tour`
+
+---
+
+## Estrutura do Projeto
+
+```text
+.
+├── tsp.c
+├── medidor_tempos.py
+├── Instancias/
+│   ├── tsp29.tsp
+│   ├── tsp38.tsp
+│   ├── ...
+│
+├── resultados/
+│   ├── *.tour
+│   └── relatorio_tempos.csv
+│
+└── relatorio_pcv.pdf
+```
+
+### Arquivos Principais
+
+| Arquivo             | Descrição                                                 |
+| ------------------- | --------------------------------------------------------- |
+| `tsp.c`             | Implementação principal do algoritmo em C                 |
+| `medidor_tempos.py` | Script para automação dos testes e geração dos relatórios |
+| `Instancias/`       | Conjunto de instâncias TSPLIB utilizadas nos experimentos |
+| `resultados/`       | Diretório para armazenamento dos tours e tabelas CSV      |
+| `relatorio_pcv.pdf` | Relatório técnico do projeto                              |
+
+---
+
+# Compilação
+
+## Windows (GCC)
+
+```bash
 gcc -O3 tsp.c -o tsp.exe -lm
 ```
 
-No Linux:
+## Linux
 
 ```bash
 gcc -O3 tsp.c -o tsp -lm
 ```
 
-## Execucao
+---
 
-O programa le a instancia pela entrada padrao e escreve o tour na saida padrao.
+# Execução
 
-Windows:
+O programa recebe uma instância pela entrada padrão (`stdin`) e imprime o tour encontrado na saída padrão (`stdout`).
+
+## Windows (PowerShell)
 
 ```powershell
 Get-Content Instancias\tsp100.tsp | .\tsp.exe > resultados\tsp100.tour
 ```
 
-Linux:
+## Linux
 
 ```bash
 ./tsp < Instancias/tsp100.tsp > resultados/tsp100.tour
 ```
 
-## Medicao dos tempos
+---
 
-Execute:
+# Medição de Tempos
 
-```powershell
+Para executar todas as instâncias automaticamente:
+
+```bash
 python medidor_tempos.py
 ```
 
-Caso `python` nao esteja no PATH, use o Python instalado na maquina ou informe o caminho completo do executavel.
+> Caso o comando `python` não esteja disponível no sistema, utilize `python3` ou informe o caminho completo para o interpretador.
 
-O script:
+---
 
-1. compila `tsp.c` com `gcc -O3`;
-2. executa todas as instancias `.tsp` da pasta `Instancias`;
-3. grava os tours em `resultados/`;
-4. gera `resultados/relatorio_tempos.csv`.
+## Funcionalidades do Script
 
-## Metodo usado
+O script `medidor_tempos.py` realiza automaticamente:
 
-O algoritmo usa:
+1. Compilação do arquivo `tsp.c` utilizando a flag `-O3`;
+2. Execução de todas as instâncias `.tsp` presentes na pasta `Instancias`;
+3. Geração dos arquivos `.tour` na pasta `resultados`;
+4. Criação do relatório consolidado `resultados/relatorio_tempos.csv`.
 
-1. matriz de distancias `EUC_2D`, calculada uma vez;
-2. construcao inicial pelo Vizinho Mais Proximo a partir de varias cidades iniciais;
-3. filtro das melhores sementes iniciais para evitar aplicar busca local em todas as partidas quando a instancia cresce;
-4. VND com duas vizinhancas: `2-Opt` e `Swap`;
-5. escolha do melhor tour encontrado.
+---
 
-Essa filtragem reduziu o tempo sem alterar os pesos obtidos nas instancias testadas. Na instancia `tsp436`, por exemplo, o tempo registrado caiu de `23.2357s` para `1.9611s`, mantendo peso `1490`.
+# Metodologia Utilizada
 
-## Resultados atuais
+O algoritmo foi desenvolvido utilizando uma combinação de heurísticas e busca local.
 
-| Instancia | Peso total | Tempo (s) |
-|---|---:|---:|
-| tsp100 | 21046 | 0.1428 |
-| tsp150 | 6636 | 0.0898 |
-| tsp29 | 27603 | 0.0096 |
-| tsp38 | 6656 | 0.0129 |
-| tsp436 | 1490 | 1.7340 |
-| tsp51 | 428 | 0.0231 |
+## 1. Matriz de Distâncias
 
-## Possiveis melhorias
+As distâncias EUC_2D entre todas as cidades são calculadas apenas uma vez e armazenadas em memória.
 
-- Para tentar diminuir o peso: aplicar uma perturbacao simples, como double-bridge, e rodar a busca local novamente. Isso transforma o metodo em uma busca local iterada, mas aumenta um pouco o codigo e o numero de parametros.
+**Vantagem:** evita milhares de chamadas repetidas à função de raiz quadrada durante a execução.
 
-## Referencias
+---
 
-- Mladenovic, N.; Hansen, P. (1997). *Variable Neighborhood Search*. Computers & Operations Research. DOI: https://doi.org/10.1016/S0305-0548(97)00031-2
-- Feo, T. A.; Resende, M. G. C. (1995). *Greedy Randomized Adaptive Search Procedures*. Journal of Global Optimization. DOI: https://doi.org/10.1007/BF01096763
-- Helsgaun, K. (2000). *An Effective Implementation of the Lin-Kernighan Traveling Salesman Heuristic*. European Journal of Operational Research. DOI: https://doi.org/10.1016/S0377-2217(99)00284-2
-- Reinelt, G. (1991). *TSPLIB - A Traveling Salesman Problem Library*. ORSA Journal on Computing. DOI: https://doi.org/10.1287/ijoc.3.4.376
+## 2. Construção Inicial – Vizinho Mais Próximo (Multi-Start)
 
-## Uso de IA
+Uma rota inicial é construída utilizando a heurística do Vizinho Mais Próximo.
 
-Foram usadas ferramentas de IA (Gemini PRO e ChatGPT/Codex) como apoio para sugerir otimizacoes simples de tempo e na sugestão pra criação do `medidor_tempo.py`. 
+O procedimento é repetido partindo de diferentes cidades para gerar múltiplas soluções iniciais.
+
+---
+
+## 3. Filtro de Candidatas
+
+Após gerar as soluções iniciais, apenas as **60 melhores rotas candidatas** são mantidas para a etapa de refinamento.
+
+**Objetivo:**
+
+* reduzir significativamente o tempo de execução;
+* evitar busca local em soluções claramente inferiores;
+* aumentar a escalabilidade para instâncias maiores.
+
+---
+
+## 4. Busca Local (VND)
+
+A melhoria das soluções é realizada por meio de **Variable Neighborhood Descent (VND)**, utilizando:
+
+### 2-Opt
+
+Remove cruzamentos de arestas e reduz o comprimento da rota através da inversão de segmentos.
+
+### Swap
+
+Troca a posição de duas cidades da rota em busca de melhorias adicionais.
+
+O algoritmo alterna entre essas estruturas até atingir um ótimo local.
+
+---
+
+## 5. Seleção Global
+
+Ao final da execução, é selecionada a melhor solução encontrada entre todas as rotas avaliadas.
+
+---
+
+# Ganho Obtido com o Filtro de Sementes
+
+A introdução da filtragem reduziu drasticamente o tempo de execução sem alterar a qualidade das soluções obtidas nos testes realizados.
+
+### Exemplo
+
+| Instância | Peso | Tempo Antes | Tempo Depois |
+| --------- | ---- | ----------- | ------------ |
+| tsp436    | 1490 | 23.2357 s   | 1.9611 s     |
+
+**Redução aproximada de 91% no tempo de execução**, mantendo exatamente o mesmo peso da solução.
+
+---
+
+# Resultados Obtidos
+
+| Instância | Peso Total | Tempo (s) |
+| --------- | ---------- | --------- |
+| tsp29     | 27603      | 0.0096    |
+| tsp38     | 6656       | 0.0129    |
+| tsp51     | 428        | 0.0231    |
+| tsp100    | 21046      | 0.1428    |
+| tsp150    | 6636       | 0.0898    |
+| tsp436    | 1490       | 1.9611    |
+
+---
+
+# Possíveis Melhorias Futuras
+
+## Redução de Tempo
+
+Implementação de **Candidate Lists** na vizinhança 2-Opt.
+
+A ideia consiste em restringir a busca apenas às cidades mais próximas, reduzindo o custo para aproximadamente:
+
+[
+O(N \cdot K)
+]
+
+onde:
+
+* (N) é o número de cidades;
+* (K) é o número de candidatos considerados para cada cidade.
+
+---
+
+## Redução de Peso
+
+Implementação de uma perturbação do tipo **Double-Bridge**, transformando o método em uma **Iterated Local Search (ILS)**.
+
+Essa abordagem permite escapar com maior facilidade de ótimos locais e explorar novas regiões do espaço de busca.
+
+---
+
+# Referências Bibliográficas
+
+* Alvesa, D. J. F., Avelino, B., de Faria, V. C. N., Macedo, E. A., Martini, V. G., Vieira, B. S., & Chaves, A. A. *Estudo comparativo de metaheurísticas aplicadas ao problema do caixeiro viajante múltiplo.*
+
+* Bentley, J. J. (1992). *Fast Algorithms for Geometric Traveling Salesman Problems*. ORSA Journal on Computing, 4(4), 387–411.
+
+* da Cunha, C. B., de Oliveira Bonasser, U., & Abrahão, F. T. M. (2002). *Experimentos Computacionais com Heurísticas de Melhorias para o Problema do Caixeiro Viajante*. XVI Congresso da ANPET.
+
+* Diadelmo, M. V., Batista, L. S., & Bessani, M. (2024). *Uma Análise Estatística de Estruturas de Vizinhança para o Problema do Caixeiro Viajante*. Congresso Brasileiro de Automática (CBA).
+
+* Goldbarg, E., Goldbarg, M., & Luna, H. (2017). *Otimização Combinatória e Metaheurísticas: Algoritmos e Aplicações*. Elsevier.
+
+* Reinelt, G. (1991). *TSPLIB – A Traveling Salesman Problem Library*. ORSA Journal on Computing, 3(4), 376–384.
+
+---
+
+# Uso de Inteligência Artificial
+
+Foram utilizadas ferramentas de Inteligência Artificial como apoio pedagógico e auxílio no desenvolvimento do projeto, incluindo:
+
+* Google Gemini;
+* ChatGPT/Codex.
+
+As ferramentas foram utilizadas principalmente para:
+
+* sugestão de otimizações de desempenho (matriz de distâncias e cálculo incremental de custos);
+* apoio na estruturação lógica do script de automação `medidor_tempos.py`;
+
